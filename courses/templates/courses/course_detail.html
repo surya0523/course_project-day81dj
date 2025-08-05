@@ -1,0 +1,50 @@
+{% extends 'courses/base.html' %}
+
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="card-title">{{ course.title }}</h1>
+                <p class="card-text text-muted">{{ course.description }}</p>
+                
+                <h3 class="mt-4">Lessons</h3>
+                {% if lessons %}
+                    <div class="list-group">
+                        {% for lesson in lessons %}
+                            <a href="{% url 'lesson_detail' lesson.pk %}" class="list-group-item list-group-item-action">
+                                {{ forloop.counter }}. {{ lesson.title }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="alert alert-info">No lessons have been added to this course yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Course Information</h5>
+                <p class="card-text"><strong>Taught by:</strong></p>
+                {% if teachers %}
+                    <ul>
+                    {% for teacher in teachers %}
+                        <li><a href="{% url 'teacher_detail' teacher.pk %}">{{ teacher.name }}</a></li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No teachers assigned to this course.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'course_list' %}" class="btn btn-secondary">Back to all courses</a>
+</div>
+{% endblock %}
